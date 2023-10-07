@@ -1,0 +1,21 @@
+name: Test workflow
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@main
+      - name: Run tests
+        run: |
+          mkdir build
+          cd build
+          cmake ..
+          make -j $(nproc)
+      - name: Verify binaries
+        run: |
+          cd build
+          ./test/stb-link-tests
